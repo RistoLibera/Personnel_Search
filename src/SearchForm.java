@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.*;
+import java.util.Arrays;
 
 public class SearchForm extends JFrame{
     private JLabel lb_title;
@@ -57,6 +61,23 @@ public class SearchForm extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Button action
+        button_v.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                try {
+                    Connection conn = (Connection) DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","sys as sysdba","123456");
+                    String sql = "select * from admin_info where AdminName = '" + tf_user.getText() + "' AND AdminPassword = '" + String.valueOf(tf_password.getPassword()) + "'";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(null, "OK");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
