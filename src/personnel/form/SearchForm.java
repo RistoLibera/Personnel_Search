@@ -2,6 +2,7 @@
  * Verify user and proceed to the search form
  *
  */
+package personnel.form;
 import javax.swing.*;
 
 import java.awt.BorderLayout;
@@ -10,7 +11,6 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.*;
-import java.util.Arrays;
 
 public class SearchForm extends JFrame{
     private JLabel lb_title;
@@ -69,9 +69,10 @@ public class SearchForm extends JFrame{
                     PreparedStatement ps = conn.prepareStatement(sql);
                     ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
-                        JOptionPane.showMessageDialog(null, "OK");
+                        setVisible(false);
+                        new SearchResult();
                     } else {
-                        JOptionPane.showMessageDialog(null, "No");
+                        JOptionPane.showMessageDialog(null, "Wrong username or password!");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
