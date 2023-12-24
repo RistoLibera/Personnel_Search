@@ -1,5 +1,8 @@
 package personnel.connection;
-
+/*
+ * Connect to Oracle SQL
+ *
+ */
 import java.sql.*;
 
 public class ConnectionManager {
@@ -48,4 +51,19 @@ public class ConnectionManager {
         }
         return false;
     }
+
+    public static ResultSet getALLInfo(Connection con, String tableName) {
+        ResultSet rs = null;
+
+        try {
+            String sql = "select * from " + tableName;
+            PreparedStatement ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 }

@@ -1,12 +1,10 @@
+package personnel.form;
 /*
  * Verify user and proceed to the search form
  *
  */
-package personnel.form;
 import javax.swing.*;
-
 import personnel.connection.ConnectionManager;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -66,19 +64,19 @@ public class SearchForm extends JFrame{
         button_v.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 try {
-                    Connection conn = ConnectionManager.getConnection();
-                    if (!ConnectionManager.IsTableExist(conn, AdminTable)) {
+                    Connection con = ConnectionManager.getConnection();
+                    // Check table existence
+                    if (!ConnectionManager.IsTableExist(con, AdminTable)) {
                         JOptionPane.showMessageDialog(null, "Admin table does not exist!");
                         return;
                     }
-
-                    if (!ConnectionManager.getAdminInfo(conn, AdminTable, tf_user.getText(), String.valueOf(tf_password.getPassword()))) {
+                    // Check admin user existence
+                    if (!ConnectionManager.getAdminInfo(con, AdminTable, tf_user.getText(), String.valueOf(tf_password.getPassword()))) {
                         JOptionPane.showMessageDialog(null, "Wrong username or password!");
                         return;
                     } else {
                         setVisible(false);
                         new SearchResult();
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -91,8 +89,8 @@ public class SearchForm extends JFrame{
         try {
             SearchForm form = new SearchForm();
             form.setVisible(true);
-            // form.setVisible(false);
-            // new SearchResult();
+            form.setVisible(false);
+            new SearchResult();
         } catch (Exception e) {
             e.printStackTrace();
         }
