@@ -148,9 +148,9 @@ public class SearchResult extends JFrame{
 
             ResultSetMetaData rsmd = rs.getMetaData();
             int cols = rsmd.getColumnCount();
-            String[] colNames = new String[cols];
-            for( int i = 0; i < cols; i++) {
-                colNames[i] = rsmd.getColumnName(i + 1);
+            String[] colNames = new String[cols - 1];
+            for( int i = 0; i < (cols - 1); i++) {
+                colNames[i] = rsmd.getColumnName(i + 2);
             }
             tm.setColumnIdentifiers(colNames);
             int x = 1;
@@ -160,7 +160,7 @@ public class SearchResult extends JFrame{
                 x = x + 1;
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 }
