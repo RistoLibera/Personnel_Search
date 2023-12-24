@@ -25,7 +25,7 @@ CREATE TABLE ADMIN_INFO (
     CONSTRAINT Password_Length CHECK(LENGTH(AdminPassword) >= 6 AND LENGTH(AdminPassword) <= 15)
 );
 ```
-- Table ADMIN_INFO
+- Table PERSONNEL_INFO
 ```cmd
 CREATE TABLE personnel_info (
     id int PRIMARY KEY,
