@@ -25,7 +25,7 @@ public class SearchForm extends JFrame{
         setLayout(new BorderLayout(20, 20));
         // panel_title for responsive layout
         JPanel panel_title = new JPanel();
-        panel_title.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        panel_title.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 30));
         JPanel panel_input = new JPanel();
         panel_input.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 30));
         JPanel panel_button = new JPanel();
@@ -36,12 +36,12 @@ public class SearchForm extends JFrame{
         // Username
         lb_user = new JLabel("Username");
         lb_user.setFont(new Font("Arial", Font.PLAIN, 25));
-        tf_user = new JTextField(30);
+        tf_user = new JTextField(40);
         tf_user.setFont(new Font("Arial", Font.PLAIN, 20));
         // Password
         lb_password = new JLabel("Password");
         lb_password.setFont(new Font("Arial", Font.PLAIN, 25));
-        tf_password = new JPasswordField(30);
+        tf_password = new JPasswordField(40);
         tf_password.setFont(new Font("Arial", Font.PLAIN, 20));
         // button
         button_v = new JButton("Verify");
@@ -57,7 +57,7 @@ public class SearchForm extends JFrame{
         add(panel_input,BorderLayout.CENTER);
         add(panel_button,BorderLayout.PAGE_END);
         // Initial settings
-        setSize(800, 400);
+        setSize(1000, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Button action
@@ -89,8 +89,6 @@ public class SearchForm extends JFrame{
         try {
             SearchForm form = new SearchForm();
             form.setVisible(true);
-            form.setVisible(false);
-            new SearchResult();
         } catch (Exception e) {
             e.printStackTrace();
         }

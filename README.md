@@ -1,23 +1,23 @@
 # Project: Personnel_Search
 ## What does this achieve
 
-- Get info of certain person in Oracle Database
-- Need to log in as admin before searching
+- Get info of certain person or all persons in Oracle Database
+- Need to log in before searching
 
 ## Getting start
 
-- Run java module
+- Run SearchForm
 ```cmd
-Powershell.exe ".\LDAP_Sort.ps1" -srcLDAPFile ".\example.ldif" -resultLDAPFile ".\sorted.ldif" -order "0"
+java --enable-preview -cp ".\bin;.\lib\ojdbc11.jar" personnel.form.SearchForm
 ```
-- Log in via admin account
-- Search or quit
+- Log in via admin account(TABLE ADMIN_INFO)
+- Quit or search personnel info(TABLE PERSONNEL_INFO)
 
 ## Notes
-
-- Table admin_info
+- Searching is case sensitive
+- Table ADMIN_INFO
 ```cmd
-CREATE TABLE admin_info (
+CREATE TABLE ADMIN_INFO (
     id int PRIMARY KEY,
     AdminName varchar(255) NOT NULL UNIQUE ,
     AdminPassword varchar(255) NOT NULL,
@@ -25,10 +25,15 @@ CREATE TABLE admin_info (
     CONSTRAINT Password_Length CHECK(LENGTH(AdminPassword) >= 6 AND LENGTH(AdminPassword) <= 15)
 );
 ```
-- You can modify the config file(names.dat) to show personalized row names
-
-
-
-
-
-java -cp "..\lib\ojdbc11.jar" .\SearchForm.java
+- Table ADMIN_INFO
+```cmd
+CREATE TABLE personnel_info (
+    id int PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    title varchar(255) NOT NULL, 
+    skill varchar(255),
+    address varchar(255) UNIQUE,
+    phone varchar(255),
+    salary varchar(255)
+);
+```

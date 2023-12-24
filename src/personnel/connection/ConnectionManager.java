@@ -52,11 +52,11 @@ public class ConnectionManager {
         return false;
     }
 
-    public static ResultSet getALLInfo(Connection con, String tableName) {
+    public static ResultSet getALLInfo(Connection con, String tableName, String name) {
         ResultSet rs = null;
 
         try {
-            String sql = "select * from " + tableName;
+            String sql = "select * from " + tableName + " where name like '%" + name + "%'";
             PreparedStatement ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             return rs;
@@ -65,5 +65,4 @@ public class ConnectionManager {
         }
         return rs;
     }
-
 }

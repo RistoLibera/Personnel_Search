@@ -24,7 +24,14 @@ public class SearchResult extends JFrame{
     
     public SearchResult() {
         setLayout(new GridBagLayout());
-        // Left input area
+        // Top result area
+        DefaultTableModel tableModel = new DefaultTableModel();
+        JTable table = new JTable(tableModel);
+        table.setFont(new Font("Times New Roman", Font.BOLD, 18));
+        table.setRowHeight(30);
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setFont(new Font("Arial", Font.PLAIN, 20));
+        // Bottom input area
         lb_name = new JLabel("Name");
         lb_name.setFont(new Font("Arial", Font.PLAIN, 20));
         tf_name = new JTextField(30);
@@ -33,37 +40,6 @@ public class SearchResult extends JFrame{
         JPanel panel_search = new JPanel();
         panel_search.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
         panel_search.setBackground(Color.GRAY);
-        // Right result area
-        DefaultTableModel tableModel = new DefaultTableModel();
-        JTable table = new JTable(tableModel);
-        table.setFont(new Font("Times New Roman", Font.BOLD, 25));
-        table.setRowHeight(30);
-        JTableHeader tableHeader = table.getTableHeader();
-        tableHeader.setFont(new Font("Arial", Font.PLAIN, 20));
-        // Add columns
-        // tableModel.setColumnIdentifiers(new Object[] { "CSS", "HTML5", "JavaScript" });
-        // tableModel.insertRow(0, new Object[] { "HTML5", "test" });
-        // tableModel.insertRow(0, new Object[] { "JavaScript" });
-        // tableModel.insertRow(0, new Object[] { "jQuery" });
-        // tableModel.insertRow(0, new Object[] { "AngularJS" });
-        // tableModel.insertRow(0, new Object[] { "JavaScript" });
-        // tableModel.insertRow(0, new Object[] { "jQuery" });
-        // tableModel.insertRow(0, new Object[] { "AngularJS" });        
-        // tableModel.insertRow(0, new Object[] { "JavaScript" });
-        // tableModel.insertRow(0, new Object[] { "jQuery" });
-        // tableModel.insertRow(0, new Object[] { "AngularJS" });
-        // tableModel.insertRow(0, new Object[] { "HTML5", "test" });
-        // tableModel.insertRow(0, new Object[] { "JavaScript" });
-        // tableModel.insertRow(0, new Object[] { "jQuery" });
-        // tableModel.insertRow(0, new Object[] { "AngularJS" });
-        // tableModel.insertRow(0, new Object[] { "JavaScript" });
-        // tableModel.insertRow(0, new Object[] { "jQuery" });
-        // tableModel.insertRow(0, new Object[] { "AngularJS" });        
-        // tableModel.insertRow(0, new Object[] { "JavaScript" });
-        // tableModel.insertRow(0, new Object[] { "jQuery" });
-        // tableModel.insertRow(0, new Object[] { "AngularJS" });
-        // tableModel.insertRow(tableModel.getRowCount(), new Object[] { "ExpressJS" });
-
         // Add to frame
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -87,41 +63,35 @@ public class SearchResult extends JFrame{
         c.anchor = GridBagConstraints.LAST_LINE_START;
         add(panel_search, c);
         // Initial settings
-        setSize(800, 400);
+        setSize(1000, 500);
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Get result by input
-
         tf_name.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) 
             {
-                GetResult(tf_name.getText());
+                tableModel.setRowCount(0);
+                rs = GetResult(tf_name.getText());
+                UpdateTable(rs, tableModel);
             }
             public void insertUpdate(DocumentEvent e) 
             {
+                tableModel.setRowCount(0);
                 rs = GetResult(tf_name.getText());
                 UpdateTable(rs, tableModel);
             }
     
             public void removeUpdate(DocumentEvent e) 
             {
-                GetResult(tf_name.getText());
+                tableModel.setRowCount(0);
+                rs = GetResult(tf_name.getText());
+                UpdateTable(rs, tableModel);
             }
         });
-
-        // tf_name.addActionListener(new ActionListener(){
-        //     public void actionPerformed(ActionEvent ae){
-        //         try {
-        //             System.out.println(tf_name.getText());
-        //         } catch (Exception e) {
-        //             e.printStackTrace();
-        //         }
-        //     }
-        // });
     }
 
-    private ResultSet GetResult(String text) {
+    private ResultSet GetResult(String input) {
         ResultSet rs = null;
 
         try {
@@ -131,11 +101,11 @@ public class SearchResult extends JFrame{
                 JOptionPane.showMessageDialog(null, "Personnel table does not exist!");
             }
             // Get resultset
-            rs = ConnectionManager.getALLInfo(con, PersonnelTable);
+            rs = ConnectionManager.getALLInfo(con, PersonnelTable, input);
             if (rs.isBeforeFirst()) {
                 return rs;
             } else {
-                JOptionPane.showMessageDialog(null, "There is no personnel info!");
+                JOptionPane.showMessageDialog(null, "No personnel info!");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,19 +115,21 @@ public class SearchResult extends JFrame{
 
     private void UpdateTable(ResultSet rs, DefaultTableModel tm) {
         try {
-
             ResultSetMetaData rsmd = rs.getMetaData();
             int cols = rsmd.getColumnCount();
+            // Set table header
             String[] colNames = new String[cols - 1];
             for( int i = 0; i < (cols - 1); i++) {
                 colNames[i] = rsmd.getColumnName(i + 2);
             }
             tm.setColumnIdentifiers(colNames);
-            int x = 1;
+            // Set table row
             while(rs.next()) {
-
-                tm.addRow(new Object[] {x, 0, 0});
-                x = x + 1;
+                Object[] info = new Object[cols - 1];
+                for (int i = 1; i < cols; i++) {
+                    info[i - 1] = rs.getObject(i + 1);
+                }
+                tm.addRow(info);
             }
         } catch (Exception e) {
             e.printStackTrace();
