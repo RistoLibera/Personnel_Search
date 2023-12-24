@@ -132,8 +132,7 @@ public class SearchResult extends JFrame{
             }
             // Get resultset
             rs = ConnectionManager.getALLInfo(con, PersonnelTable);
-            if (rs.next()) {
-                rs.beforeFirst();
+            if (rs.isBeforeFirst()) {
                 return rs;
             } else {
                 JOptionPane.showMessageDialog(null, "There is no personnel info!");
@@ -154,9 +153,12 @@ public class SearchResult extends JFrame{
                 colNames[i] = rsmd.getColumnName(i + 1);
             }
             tm.setColumnIdentifiers(colNames);
-            // while(rs.next()) {
-            //     tm.addRow(new Object[] {0, 0, 0});
-            // }
+            int x = 1;
+            while(rs.next()) {
+
+                tm.addRow(new Object[] {x, 0, 0});
+                x = x + 1;
+            }
         } catch (Exception e) {
             // TODO: handle exception
         }
