@@ -48,7 +48,7 @@ public class SearchForm extends JFrame{
         // button
         button_v = new JButton("Verify");
         button_v.setFont(new Font("Arial", Font.PLAIN, 30));
-        // // Can press Enter key to proceed
+        // Can press Enter key to proceed
         getRootPane().setDefaultButton(button_v);
         // Add to frame
         panel_title.add(lb_title);
