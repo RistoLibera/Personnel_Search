@@ -6,9 +6,9 @@ package personnel.connection;
 import java.sql.*;
 
 public class ConnectionManager {
-    private static String URL = "jdbc:oracle:thin:@localhost:1521:orcl";    
-    private static String Username = "sys as sysdba";   
-    private static String Password = "123456";
+    private final static String URL = "jdbc:oracle:thin:@localhost:1521:orcl";    
+    private final static String Username = "sys as sysdba";   
+    private final static String Password = "123456";
     private static Connection con;
 
     public static Connection getConnection() {

@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 
@@ -46,6 +48,8 @@ public class SearchForm extends JFrame{
         // button
         button_v = new JButton("Verify");
         button_v.setFont(new Font("Arial", Font.PLAIN, 30));
+        // // Can press Enter key to proceed
+        getRootPane().setDefaultButton(button_v);
         // Add to frame
         panel_title.add(lb_title);
         panel_input.add(lb_user);
